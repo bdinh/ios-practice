@@ -20,8 +20,6 @@ open class TestMe {
   }
 }
 
-testMe()
-
 
 ////////////////////////////////////
 // Money
@@ -117,7 +115,7 @@ open class Job {
     }
   }
   
-  open func raise(_ amt : Double) {
+  public func raise(_ amt : Double) {
     switch self.type {
     case .Hourly(let totalPay):
         self.type = JobType.Hourly(totalPay + amt)
@@ -166,7 +164,7 @@ open class Person {
   }
   
   open func toString() -> String {
-    return ("\(self.firstName) \(self.lastName) is \(self.age) years old")
+    return ("[Person: firstName:\(self.firstName) lastName:\(self.lastName) age:\(self.age) job:\(self.job) spouse:\(self.spouse)]")
   }
 }
 
@@ -180,21 +178,29 @@ open class Family {
     if spouse1.spouse == nil && spouse2.spouse == nil {
         spouse1.spouse = spouse2
         spouse2.spouse = spouse1
+        self.members.append(spouse1)
+        self.members.append(spouse2)
     }
-    self.members.append(spouse1)
-    self.members.append(spouse2)
   }
   
   open func haveChild(_ child: Person) -> Bool {
-    self.members.append(child)
-    return true
+    var canHaveChild : Bool = false
+    for person in members {
+        if person.age > 20 {
+            canHaveChild = true
+        }
+    }
+    if canHaveChild {
+        self.members.append(child)
+    }
+    return canHaveChild
     
   }
   open func householdIncome() -> Int {
     var total = 0
     for person in members {
         if person._job != nil {
-            total += (person._job?.calculateIncome(1))!
+            total += (person._job?.calculateIncome(2000))!
         }
     }
     return total

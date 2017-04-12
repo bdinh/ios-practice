@@ -65,7 +65,6 @@ class FamilyTests : XCTestCase {
     let matt = Person(firstName: "Matt", lastName: "Neward", age: 16)
     let _ = family.haveChild(mike)
     let _ = family.haveChild(matt)
-    
     let familyIncome = family.householdIncome()
     XCTAssert(familyIncome == 12000)
   }
